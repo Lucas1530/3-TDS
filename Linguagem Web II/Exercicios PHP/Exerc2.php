@@ -1,17 +1,16 @@
 <?php
 
-// Função para calcular o n-ésimo termo da sequência de Fibonacci
-function fibonacci($n) {
-  if ($n <= 2) {
-    return 1;
-  } else {
-    return fibonacci($n - 1) + fibonacci($n - 2);
-  }
-}
+//Termos
 
-// Imprimindo os primeiros 10 termos da sequência
-for ($i = 1; $i <= 10; $i++) {
-  echo fibonacci($i) . " ";
-}
+$t1 = 1;
+$t2 = 1;
 
-?>
+for($i=0 ; $i<15 ; $i++){
+
+    
+    echo $t1 . "<br>";
+    $novoT = $t1 + $t2;
+    $t1 = $t2;
+    $t2 = $novoT;
+}
+    ?>
