@@ -2,30 +2,37 @@
 
 define("PI", 3.14);
 
-function area() {
-    $area = $raio * $raio * PI;
+function area_circulo($raio) {
+    $area = PI * $raio * $raio;
     return $area;
 }
 
-function circunferencia($raio) {
-    return 2 * PI * $raio;
+function circuferencia_circulo($raio) {
+    $circunf = 2 * PI * $raio;
+    return $circunf;
 }
 
-//Programa principal
+//Execução
+echo "<h2>Exercício 2 - Funções</h2>";
 
-$r1 = 10;
-$area = area($r1);
-$cirfunf = circunferencia($r1);
-echo"Raio: " . $r1 . "cm Área: " . "cm Circunf:" . $cirfunf . "cm" . "<br>" . "<br>";
+//Círculo 1
+$raio = 20;
+echo "Raio do círculo: " . $raio . " cm <br>";
+echo "Área do círculo: " . area_circulo($raio) . " cm² <br>";
+echo "Circunferência do círculo: " . circuferencia_circulo($raio) . " cm <br>";
 
-$r1 = 20;
-$area = area($r1);
-$cirfunf = circunferencia($r1);
-echo"Raio: " . $r1 . "cm Área: " . "cm Circunf:" . $cirfunf . "cm" . "<br>" . "<br>";
+echo "<br><br>";
 
-$r1 = 30;
-$area = area($r1);
-$cirfunf = circunferencia($r1);
-echo"Raio: " . $r1 . "cm Área: " . "cm Circunf:" . $cirfunf . "cm" . "<br>" ;
+//Círculo 2
+$raio = 8;
+echo "Raio do círculo: " . $raio . " cm <br>";
+echo "Área do círculo: " . area_circulo($raio) . " cm² <br>";
+echo "Circunferência do círculo: " . circuferencia_circulo($raio) . " cm <br>";
 
-?>
+echo "<br><br>";
+
+//Círculo 3
+$raio = 32;
+echo "Raio do círculo: " . $raio . " cm <br>";
+echo "Área do círculo: " . area_circulo($raio) . " cm² <br>";
+echo "Circunferência do círculo: " . circuferencia_circulo($raio) . " cm <br>";
