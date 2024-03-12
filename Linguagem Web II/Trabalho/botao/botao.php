@@ -1,4 +1,3 @@
-
 <?php 
 
 
@@ -12,9 +11,15 @@ function desenhabotao($botao, $titulo){
             foreach($botao as $b)
                 echo '<span><img src="' . $b['linkImg'] . '" width="20" height="20">' . $b['info'] . '</span>';
         echo "</div>";
-    echo "</div>";        
-
-
+    echo "</div>";
+    echo "<br>";
+echo "</br>";
+echo "<br>";
+echo "</br>";
+echo "<br>";
+echo "</br>";
+echo "<br>";
+echo "</br>";
 }
 
 //Programa principal
