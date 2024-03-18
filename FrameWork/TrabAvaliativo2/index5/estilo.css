@@ -1,0 +1,12 @@
+div{
+    border: 1px solid black;
+}
+div:nth-child(){
+    background-color: lightblue;
+}
+.ms{
+    background-color: lightcoral;
+}
+.mf{
+    background-color: lightgreen;
+}
