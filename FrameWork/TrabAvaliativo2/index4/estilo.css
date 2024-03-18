@@ -1,0 +1,6 @@
+div{
+    border: 1px solid black;
+}
+div:nth-child(3n){
+    background-color: lightblue;
+}
