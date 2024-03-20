@@ -44,13 +44,17 @@ echo "<td> Páis </td>";
 echo "<td> ouro </td>";
 echo "<td> prata </td>";
 echo "<td> bronze </td>";
+echo "<td> total </td>";
+echo "</tr>";
 
 
-for ($i= 0; $i < count($pessoas)  ; $i++) { 
+for ($i= 0; $i < count($linha)  ; $i++) { 
     echo"<tr>";
-    foreach ($linha[$i] as $p) {
+    /*foreach ($linha[$i] as $p) {
         echo "<td> $p </td>";
-    }
+    }*/
+    echo "<td>" . $linha[$i]["Ordem"] . "</td>";
+    echo "<td> <img src='link' />" . $linha[$i]["Páis"] . "</td>";
 
     echo"</tr>";
 }
