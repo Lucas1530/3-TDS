@@ -82,3 +82,5 @@ foreach ($livros as $livro) {
 }
 
 echo
+
+<?
