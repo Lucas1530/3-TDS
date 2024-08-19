@@ -1,0 +1,6 @@
+usuario:root
+
+senha:bancodedados
+
+
+link site:http://localhost/phpmyadmin/
