@@ -45,11 +45,11 @@ $lg->setUser($user)->setPassword($password);
 
 
 if ($lg->getUser()=="IFPR"&&$lg->getPassword()=="TDS") {
-    echo"Login Sucesso <br>";
-    echo"Acesso liberado";
+    echo"Logado com Sucesso <br>";
+    echo"BEM VINDO AO TDS!!!";
 }
 else {
-    echo"Login failed";
+    echo"Login errado tenta novamente";
 } 
 echo'
 <br><a href="login_form.php">Voltar</a>';
