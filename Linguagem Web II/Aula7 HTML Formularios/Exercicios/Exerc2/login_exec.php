@@ -49,7 +49,7 @@ if ($lg->getUser()=="IFPR"&&$lg->getPassword()=="TDS") {
     echo"BEM VINDO AO TDS!!!";
 }
 else {
-    echo"Login errado tenta novamente";
+    echo"Login errado tenta novamente<br><a>";
 } 
 echo'
 <br><a href="login_form.php">Voltar</a>';
