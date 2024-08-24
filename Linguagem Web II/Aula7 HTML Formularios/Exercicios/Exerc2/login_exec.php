@@ -47,9 +47,11 @@ $lg->setUser($user)->setPassword($password);
 if ($lg->getUser()=="IFPR"&&$lg->getPassword()=="TDS") {
     echo"Logado com Sucesso <br>";
     echo"BEM VINDO AO TDS!!!";
+    echo'
+<br><a href="login_form.php">Deslogar</a>';
 }
 else {
-    echo"Login errado tenta novamente<br><a>";
-} 
-echo'
+    echo"Login errado <br> tenta novamente<a>";
+    echo'
 <br><a href="login_form.php">Voltar</a>';
+} 
