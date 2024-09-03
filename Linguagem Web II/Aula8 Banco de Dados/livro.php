@@ -10,7 +10,25 @@ include_once("conexao.php");
 
 
 $conn = Conexao::getConexao();
-print_r($conn);
+
+
+//Verificação se o usuario clicou no gravar
+
+if (isset($_POST['titulo'])) {
+
+    $titulo = $_POST['titulo'];
+    $genero = $_POST['genero'];
+    $qtdpag = $_POST['qtdpag'];
+
+    $sql = "INSERT INTO livros (titulo,genero,qtd_paginas)
+    VALUES ( ?, ?, ? )";
+    $stm = $conn->prepare($sql);
+    $stm->execute([$titulo, $genero, $qtdpag]);
+
+    //Redirecionar para a página desejada
+
+    header("locacion:livros.php");
+}
 
 ?>
 
@@ -41,14 +59,45 @@ print_r($conn);
         </select>
         <br><br>
 
-        <input type="number" name="qtdPag" placeholder="Informe a Quantidade de Páginas">
+        <input type="number" name="qtdpag" placeholder="Informe a Quantidade de Páginas">
         <br><br>
 
         <input type="submit" class="btn btn-primary" value="Gravar" />
-        <input type="reset" class="btn btn-secondary" value="Limpar" />
+        <input type="reset" class="btn btn btn-secondary" value="Limpar" />
     </form>
 
     <h3>Listagem de livros</h3>
+
+    <?php
+    $sql = "SELECT * FROM livros";
+    $stm = $conn->prepare($sql);
+    $stm->execute();
+    $livros = $stm->fetchALL();
+
+    ?>
+
+    <table class="table table-striped" border="1">
+        <tr>
+            <th>ID</th>
+            <th>Titulo</th>
+            <th>Genero</th>
+            <th>Quantidade de paginas</th>
+            <th></th>
+        </tr>
+
+        <?php foreach ($livros as $l): ?>
+            <tr>
+                <td><?php echo $l["id"]; ?></td>
+                <td><?php echo $l["titulo"]; ?></td>
+                <td><?php echo $l["genero"]; ?></td>
+                <td><?= $l["qtd_paginas"]; ?></td>
+                <th>
+                    <a class="btn btn-outline-danger" href="livro_del.php?id=<?= $l['id'] ?>">Deletar</a>
+                </th>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+
 
 </body>
 
