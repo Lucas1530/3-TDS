@@ -1,6 +1,7 @@
 <?php
 
-class Conexao {
+class Conexao
+{
 
     private static $conn = null;
 
@@ -25,8 +26,7 @@ class Conexao {
             try {
 
                 self::$conn = new PDO($endereco, $usuario, $senha, $opcoes);
-
-            } catch(PDOException $e) {
+            } catch (PDOException $e) {
                 echo "Erro ao conectar no banco de dados!<br>";
                 echo $e->getMessage();
             }
