@@ -43,13 +43,14 @@ if (isset($_POST['titulo'])) {
 </head>
 
 <body>
-    <h3>Formulário do livro</h3>
-    <form method="POST">
+    <h3>Castradar livros</h3>
+    <br>
+    <form method="POST" onsubmit="return validarcampos();">
 
-        <input type="text" name="titulo" placeholder="Informe o título" />
+        <input  type="text" name="titulo" id="titulo" placeholder="Informe o título" />
         <br><br>
 
-        <select name="genero">
+        <select  name="genero" id="genero">
             <option value="">Seleciona Genero</option>
             <option value="A">Aventura</option>
             <option value="D">Drama</option>
@@ -59,12 +60,13 @@ if (isset($_POST['titulo'])) {
         </select>
         <br><br>
 
-        <input type="number" name="qtdpag" placeholder="Informe a Quantidade de Páginas">
+        <input  type="number" name="qtdpag" id="qtdpag" placeholder="Informe a Quantidade de Páginas">
         <br><br>
 
         <input type="submit" class="btn btn-primary" value="Gravar" />
         <input type="reset" class="btn btn btn-secondary" value="Limpar" />
     </form>
+    <br>
 
     <h3>Listagem de livros</h3>
 
@@ -76,12 +78,12 @@ if (isset($_POST['titulo'])) {
 
     ?>
 
-    <table class="table table-striped" border="1">
+    <table class="table table-striped w-25 p-3" border="1">
         <tr>
             <th>ID</th>
             <th>Titulo</th>
             <th>Genero</th>
-            <th>Quantidade de paginas</th>
+            <th>Páginas</th>
             <th></th>
         </tr>
 
@@ -89,14 +91,44 @@ if (isset($_POST['titulo'])) {
             <tr>
                 <td><?php echo $l["id"]; ?></td>
                 <td><?php echo $l["titulo"]; ?></td>
-                <td><?php echo $l["genero"]; ?></td>
+                <td>
+
+                    <?php
+                    switch ($l['genero']) {
+                        case "A":
+                            echo "Aventura";
+                            break;
+
+                        case "D":
+                            echo "Drama";
+                            break;
+
+                        case "F":
+                            echo "Fição";
+                            break;
+
+                        case "R":
+                            echo "Romance";
+                            break;
+
+                        case "T":
+                            echo "Terror";
+                            break;
+                    }
+
+
+                    ?>
                 <td><?= $l["qtd_paginas"]; ?></td>
-                <th>
-                    <a class="btn btn-outline-danger" href="livro_del.php?id=<?= $l['id'] ?>">Deletar</a>
-                </th>
+                <td>
+                    <a class="btn btn-outline-danger" href="livro_del.php?id=<?= $l['id'] ?>"
+                        onclick="return confirm('Tem certeza que quer Excluir?')">
+                        Deletar</a>
+                </td>
             </tr>
         <?php endforeach; ?>
     </table>
+
+    <script src="validacao.js"></script>
 
 
 </body>
