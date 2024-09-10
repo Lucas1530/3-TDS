@@ -11,6 +11,8 @@ include_once("conexao.php");
 
 $conn = Conexao::getConexao();
 
+$msgErro = "";
+
 
 //Verificação se o usuario clicou no gravar
 
@@ -20,16 +22,34 @@ if (isset($_POST['titulo'])) {
     $genero = $_POST['genero'];
     $qtdpag = $_POST['qtdpag'];
 
-    $sql = "INSERT INTO livros (titulo,genero,qtd_paginas)
+    //Validar Dados
+
+    if ($titulo == '') {
+        $msgErro = "Informe o título do livro!";
+
+     } else if($genero == '') {
+        $msgErro = "Informe o Genero!";
+
+
+     } else if($qtdpag == '') {
+        $msgErro = "Informe Quantidade de Páginas!";
+
+    
+    } else {
+
+
+
+        $sql = "INSERT INTO livros (titulo,genero,qtd_paginas)
     VALUES ( ?, ?, ? )";
-    $stm = $conn->prepare($sql);
-    $stm->execute([$titulo, $genero, $qtdpag]);
+        $stm = $conn->prepare($sql);
+        $stm->execute([$titulo, $genero, $qtdpag]);
 
-    //Redirecionar para a página desejada
+        //Redirecionar para a página desejada
 
-    header("locacion:livros.php");
-}
+        header("locacion:livros.php");
 
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -45,12 +65,12 @@ if (isset($_POST['titulo'])) {
 <body>
     <h3>Castradar livros</h3>
     <br>
-    <form method="POST" onsubmit="return validarcampos();">
+    <form method="POST">
 
-        <input  type="text" name="titulo" id="titulo" placeholder="Informe o título" />
+        <input type="text" name="titulo" id="titulo" placeholder="Informe o título" />
         <br><br>
 
-        <select  name="genero" id="genero">
+        <select name="genero" id="genero">
             <option value="">Seleciona Genero</option>
             <option value="A">Aventura</option>
             <option value="D">Drama</option>
@@ -60,12 +80,16 @@ if (isset($_POST['titulo'])) {
         </select>
         <br><br>
 
-        <input  type="number" name="qtdpag" id="qtdpag" placeholder="Informe a Quantidade de Páginas">
+        <input type="number" name="qtdpag" id="qtdpag" placeholder="Informe a Quantidade de Páginas">
         <br><br>
 
         <input type="submit" class="btn btn-primary" value="Gravar" />
         <input type="reset" class="btn btn btn-secondary" value="Limpar" />
     </form>
+    <br>
+
+    <span class="badge bg-warning text-dark" id="msg" ;><?= $msgErro ?></span>
+    
     <br>
 
     <h3>Listagem de livros</h3>
