@@ -62,7 +62,7 @@ $result = $conn->query($sql);
 <body>
     <h1>Cadastro de Jogos Eletrônicos</h1>
 
-    <form action="" method="post">
+    <form action="" method="post" onsubmit="return validarCampos();">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
         <br>
@@ -106,24 +106,40 @@ $result = $conn->query($sql);
             <th>Ano de Lançamento</th>
             <th>Ações</th>
         </tr>
-        <?php if ($result->num_rows > 0): ?>
-            <?php while($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?php echo $row['id']; ?></td>
-                    <td><?php echo $row['nome']; ?></td>
-                    <td><?php echo $row['genero']; ?></td>
-                    <td><?php echo $row['plataforma']; ?></td>
-                    <td><?php echo $row['ano_lancamento']; ?></td>
-                    <td><a href="?delete=<?php echo $row['id']; ?>">Excluir</a></td>
-                </tr>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="6">Nenhum jogo cadastrado.</td>
-            </tr>
-        <?php endif; ?>
+        <!-- Listagem dos jogos será mostrada aqui -->
     </table>
 
-    <?php $conn->close(); ?>
+    <script>
+        function validarCampos() {
+            var nome = document.getElementById("nome").value;
+            var genero = document.getElementById("genero").value;
+            var plataforma = document.getElementById("plataforma").value;
+            var anoLancamento = document.getElementById("ano_lancamento").value;
+
+            // Validar se os campos foram preenchidos
+            if (nome.trim() == "") {
+                alert("Preencha o nome do jogo!");
+                return false;
+            }
+
+            if (genero.trim() == "") {
+                alert("Selecione um gênero!");
+                return false;
+            }
+
+            if (plataforma.trim() == "") {
+                alert("Selecione uma plataforma!");
+                return false;
+            }
+
+            if (anoLancamento.trim() == "" || isNaN(anoLancamento)) {
+                alert("Preencha um ano de lançamento válido!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
 </body>
 </html>
