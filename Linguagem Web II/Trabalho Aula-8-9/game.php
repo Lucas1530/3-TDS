@@ -1,16 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jogos_db";
+include_once("conexao.php");
 
 // Criação da conexão
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificação da conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
-}
+$conn = Conexao::getConexao();
 
 // Função para sanitizar dados
 function sanitize($data) {
@@ -23,28 +15,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $genero = sanitize($_POST['genero']);
     $plataforma = sanitize($_POST['plataforma']);
     $ano_lancamento = sanitize($_POST['ano_lancamento']);
+    $icone = sanitize($_POST['icone']);
     
     // Validação
     if (empty($nome) || empty($genero) || empty($plataforma) || empty($ano_lancamento)) {
         echo "Todos os campos são obrigatórios.";
     } else {
-        $sql = "INSERT INTO jogos (nome, genero, plataforma, ano_lancamento) VALUES ('$nome', '$genero', '$plataforma', '$ano_lancamento')";
-        if ($conn->query($sql) === TRUE) {
+        $sql = "INSERT INTO jogos (nome, genero, plataforma, ano_lancamento, icone) VALUES (:nome, :genero, :plataforma, :ano_lancamento, :icone)";
+        $stm = $conn->prepare($sql);
+        if ($stm->execute([':nome' => $nome, ':genero' => $genero, ':plataforma' => $plataforma, ':ano_lancamento' => $ano_lancamento, ':icone' => $icone])) {
             echo "Novo jogo cadastrado com sucesso!";
         } else {
-            echo "Erro: " . $sql . "<br>" . $conn->error;
+            echo "Erro ao cadastrar o jogo.";
         }
     }
 }
 
+
 // Exclusão de um jogo
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
-    $sql = "DELETE FROM jogos WHERE id=$id";
-    if ($conn->query($sql) === TRUE) {
+    $sql = "DELETE FROM jogos WHERE id = :id";
+    $stm = $conn->prepare($sql);
+    if ($stm->execute([':id' => $id])) {
         echo "Jogo excluído com sucesso!";
     } else {
-        echo "Erro ao excluir o jogo: " . $conn->error;
+        echo "Erro ao excluir o jogo.";
     }
 }
 
@@ -57,19 +53,22 @@ $result = $conn->query($sql);
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <title>Cadastro de Jogos Eletrônicos</title>
 </head>
 <body>
     <h1>Cadastro de Jogos Eletrônicos</h1>
 
-    <form action="" method="post" onsubmit="return validarCampos();">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required>
+    <form action="" method="post" >
+        <label for="nome w-25 p-1">Nome:</label>
+        
+        <input class="form-control w-25 p-1" aria-describedby="basic-addon1" type="text" id="nome" name="nome" >
         <br>
 
         <label for="genero">Gênero:</label>
-        <select id="genero" name="genero" required>
-            <option value="">Selecione um gênero</option>
+        <select class="form-select w-25 p-1" aria-label="Default select example" id="genero" name="genero" >
+            <option selected value="">Selecione um gênero</option>
             <option value="Ação">Ação</option>
             <option value="Aventura">Aventura</option>
             <option value="Estratégia">Estratégia</option>
@@ -80,7 +79,7 @@ $result = $conn->query($sql);
         <br>
 
         <label for="plataforma">Plataforma:</label>
-        <select id="plataforma" name="plataforma" required>
+        <select class="form-select w-25 p-1" aria-label="Default select example" id="plataforma" name="plataforma" >
             <option value="">Selecione uma plataforma</option>
             <option value="PC">PC</option>
             <option value="PlayStation">PlayStation</option>
@@ -90,24 +89,48 @@ $result = $conn->query($sql);
         <br>
 
         <label for="ano_lancamento">Ano de Lançamento:</label>
-        <input type="number" id="ano_lancamento" name="ano_lancamento" min="1900" max="2100" required>
+        <input class="form-control w-25 p-1" aria-describedby="basic-addon1" type="number" id="ano_lancamento" name="ano_lancamento" min="1900" max="2100" >
         <br>
+        <label for="icone">Icone do Game:</label>
+<input class="form-control w-25 p-1" aria-describedby="basic-addon1" type="text" id="icone" name="icone">
+<br>
 
-        <input type="submit" name="submit" value="Cadastrar Jogo">
+
+        <input class="btn btn-primary" type="submit" name="submit" value="Cadastrar Jogo">
     </form>
 
     <h2>Lista de Jogos</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Gênero</th>
-            <th>Plataforma</th>
-            <th>Ano de Lançamento</th>
-            <th>Ações</th>
-        </tr>
-        <!-- Listagem dos jogos será mostrada aqui -->
-    </table>
+    <table class="table table-striped w-50 p-3" border="1">
+    <tr>
+        <th>ID</th>
+        <th>Ícone</th>
+        <th>Nome</th>
+        <th>Gênero</th>
+        <th>Plataforma</th>
+        <th>Ano de Lançamento</th>
+        <th>Ação</th>
+    </tr>
+    <?php while ($row = $result->fetch()): ?>
+    <tr>
+        <td><?php echo htmlspecialchars($row['id']); ?></td>
+        <td>
+            <?php if (!empty($row['icone'])): ?>
+                <img src="<?php echo htmlspecialchars($row['icone']); ?>" alt="Ícone do jogo" style="width: 50px; height: 50px;">
+            <?php else: ?>
+                <img src="default-icon.png" alt="Ícone padrão" style="width: 50px; height: 50px;">
+            <?php endif; ?>
+        </td>
+        <td><?php echo htmlspecialchars($row['nome']); ?></td>
+        <td><?php echo htmlspecialchars($row['genero']); ?></td>
+        <td><?php echo htmlspecialchars($row['plataforma']); ?></td>
+        <td><?php echo htmlspecialchars($row['ano_lancamento']); ?></td>
+        <td>
+            <a class="btn btn-outline-danger" href="?delete=<?php echo htmlspecialchars($row['id']); ?>" onclick="return confirm('Tem certeza que deseja excluir este jogo?');">Excluir</a>
+        </td>
+    </tr>
+    <?php endwhile; ?>
+</table>
+
 
     <script>
         function validarCampos() {
