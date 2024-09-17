@@ -14,7 +14,7 @@ if ($id) {
     $stm->execute([$id]);
 
     // Redirecionar para a página principal
-    header("location: game.php");
+    header("location: games.php");
 } else {
     // Caso não receba o ID, mostra a mensagem de ID inválido
     echo "ID do jogo inválido.<br>";
