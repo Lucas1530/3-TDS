@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário MVC</title>
+    <style>
+        /* Estilos simples */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+        function validarCamposVazios(campos) {
+            for (let campo of campos) {
+                const valor = campo.value.trim();
+                if (valor === '') {
+                    return {
+                        isValid: false,
+                        fieldName: campo.name
+                    };
+                }
+            }
+            return { isValid: true };
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const formulario = document.getElementById("meuFormulario");
+
+            formulario.onsubmit = function (event) {
+                event.preventDefault(); // Impede o envio do formulário
+
+                const campos = formulario.querySelectorAll('input[type="text"]');
+                const resultadoValidacao = validarCamposVazios(campos);
+
+                if (!resultadoValidacao.isValid) {
+                    alert("O campo " + resultadoValidacao.fieldName + " não pode ser vazio.");
+                    document.getElementById(resultadoValidacao.fieldName).focus();
+                } else {
+                    // Aqui você pode processar o formulário
+                    alert("Formulário enviado com sucesso!");
+                    formulario.reset(); // Limpa o formulário após o envio
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+    <form id="meuFormulario">
+        <h2>Cadastro</h2>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome">
+        
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email">
+        
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
