@@ -1,1 +1,24 @@
+Instruções para o trabalho sobre cadastro de viajem
+
+1.Colunas
+Preencher os campos importantes:nome,idade,origem
+
+2.seleção
+Continentes:
+
+Continentes Americanos,Continente Europeu,Continente Africano,Continente Asiático
+
+3.Coluna
+Preencher o nome do pais por um campo
+
+4.Manual para a pessoa que não é boa de geografia
+link:manual de todos paises em cada continente
+
+Coloca manual no google docs 
+minimo de cada paises são 20 paises os mais conhecido no mundo
+
+5.Fazer o Excluir e editar caso a pessoa não tiver satisfeito
+
+6.Fazer Funcionar :)
+
 
